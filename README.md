@@ -141,8 +141,39 @@ private static extern void myHello();
 myHello();
 ```
 
-## 一键体验
+## 一键体验（Windows系统）
 
 1. Clone本项目`https://github.com/lishewen/CJinvokedotnet`
 2. 使用`build.bat`一键生成C#和仓颉的项目
 3. 运行`main.exe`
+
+## Linux系统下的互调用
+1. 把`Hello.cs`中的
+```csharp
+[DllImport("libCJinvokedotnet.dll", EntryPoint = "myHello")]
+```
+修改为：
+```csharp
+[DllImport("libCJinvokedotnet.so", EntryPoint = "myHello")]
+```
+> 仓颉在Linux系统默认编译出来的库为 .so 文件
+2. `CSLibrary.csproj`中的`AssemblyName`需要加上`lib`前缀，即
+```xml
+<AssemblyName>libCSLibrary</AssemblyName>
+```
+这样就能让编译出来的文件名为`libCSLibrary.so`
+> 这是cjc编译器的一个约定`lib[arg].so`，为了让Linux下的cjc编译器能正确地识别出文件
+3. 最终编译出来的`main`文件，需要给与其可执行权限
+```bash
+chmod +x main
+```
+
+## Linux下的`build.sh`脚本使用
+1. 赋予可执行权限
+```bash
+chmod +x build.sh
+```
+2. 可加架构参数，如笔者使用的是树莓派4B，所以在后面加`arm64`，不加则默认为`x64`
+```bash
+./build.sh arm64
+```
