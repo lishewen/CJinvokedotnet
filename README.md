@@ -117,6 +117,30 @@ hello world
 Hello, 算神! My name is CSLibrary.Hello
 ```
 
+## C#调用仓颉的dll
+1. 新建一个文件`mylib.cj`
+```javascript
+package CJinvokedotnet
+// 定义C可见方法
+@C
+func myHello(): Unit {
+    println("您好，欢迎使用仓颉！")
+}
+```
+2. 使用下面的命令编译可以得到一个`libCJinvokedotnet.dll`
+```cmd
+cjc mylib.cj --output-type=dylib
+```
+3. C#中通过`DllImport`导入`libCJinvokedotnet.dll`的`myHello`方法，并调用它
+```csharp
+// 导入仓颉库的自定义方法
+[DllImport("libCJinvokedotnet.dll", EntryPoint = "myHello")]
+private static extern void myHello();
+
+// 调用仓颉自定义库中的myHello方法
+myHello();
+```
+
 ## 一键体验
 
 1. Clone本项目`https://github.com/lishewen/CJinvokedotnet`
