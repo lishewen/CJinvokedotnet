@@ -8,3 +8,6 @@ bin
 *.pdb
 *.exe
 *.cjo
+*.so
+*.dbg
+main

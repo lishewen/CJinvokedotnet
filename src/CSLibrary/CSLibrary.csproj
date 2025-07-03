@@ -6,6 +6,13 @@
     <Nullable>enable</Nullable>
     <OutputType>Library</OutputType>
     <PublishAot>true</PublishAot>    <!-- 启用AOT编译 -->
+
+    <IsWindows Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))' == 'true'">true</IsWindows>
+    <IsLinux Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' == 'true'">true</IsLinux>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(IsLinux)'=='true'">
+    <AssemblyName>libCSLibrary</AssemblyName>
+    <DefineConstants>LINUX</DefineConstants>
+  </PropertyGroup>
 </Project>

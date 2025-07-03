@@ -10,7 +10,8 @@ main(): Int64 {
         var name = LibC.mallocCString("算神")
         var greeting = sayhello(name)
         println(greeting)
-        free_string(greeting)
+        // Linux下会报错free(): double free detected in tcache 2，所以greeting只需要free一次即可
+        // free_string(greeting)
         LibC.free(name)
         LibC.free(greeting)
     }

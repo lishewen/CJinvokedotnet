@@ -27,8 +27,12 @@ public static class Hello
             Marshal.FreeCoTaskMem(ptr);
         }
     }
-
+#if LINUX
+    // 在Linux上使用libCJinvokedotnet.so
+    [DllImport("libCJinvokedotnet.so", EntryPoint = "myHello")]
+#else
     // 导入仓颉库的自定义方法
     [DllImport("libCJinvokedotnet.dll", EntryPoint = "myHello")]
+#endif
     private static extern void myHello();
 }
